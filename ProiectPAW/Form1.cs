@@ -1,8 +1,11 @@
 using System.Linq;
+using System.Text.Json;
 using System.Windows.Forms;
 using ComertApp.Custom_Exceptions;
 using ComertApp.Entities;
+using ComertApp.Forms;
 using ComertApp.Models;
+using ComertControls;
 using Microsoft.EntityFrameworkCore;
 
 namespace ProiectPAW
@@ -154,6 +157,31 @@ namespace ProiectPAW
         private void btnListaDesfaceriToolStrip_Click(object sender, EventArgs e)
         {
             AfiseazaDesfaceri();
+        }
+
+        private void tsmiSerializare_Click(object sender, EventArgs e)
+        {
+            SerializeazaMagazine();
+        }
+
+        private void tsmiDeserializare_Click(object sender, EventArgs e)
+        {
+            DeserializareMagazine();
+        }
+        private void adaugaMagazinToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportRaport();
+        }
+
+        private void graficToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var data = ctx.Magazine.Select(m => new { m.Nume, Total = m.ListaRaioane.SelectMany(r => r.Desfaceri).Sum(d => (float)d.Valoare) })
+                .AsEnumerable()
+                .Select(x => new BarChartValue(x.Nume, x.Total))
+                .ToArray();
+            var form = new FormGrafic();
+            form.barChartControl.Data = data;
+            form.Show();
         }
         #endregion
 
@@ -588,6 +616,7 @@ namespace ProiectPAW
         }
         #endregion
 
+        #region Editare si Stergere
         private void cmiSterge_Click(object sender, EventArgs e)
         {
             var entitate = dgvListe.SelectedRows[0].DataBoundItem;
@@ -712,5 +741,83 @@ namespace ProiectPAW
                 dgvListe.CurrentCell = dgvListe.Rows[e.RowIndex].Cells[e.ColumnIndex];
             }
         }
+        #endregion
+
+        #region Serializare si Deserializare
+        private void SerializeazaMagazine()
+        {
+            var magazine = ctx.Magazine.Include(m => m.ListaRaioane).ThenInclude(r => r.Desfaceri).ToList();
+            using (FileStream stream = File.Create("magazine.json"))
+            {
+                JsonSerializer.Serialize(stream, magazine, new JsonSerializerOptions { WriteIndented = true });
+            }
+            lblStatus.Text = "Magazine serializate cu succes!";
+        }
+
+        private void DeserializareMagazine()
+        {
+            using (FileStream stream = File.OpenRead("magazine.json"))
+            {
+                var magazine = JsonSerializer.Deserialize<List<Magazin>>(stream);
+
+                if (magazine != null)
+                {
+                    foreach (var m in magazine)
+                    {
+                        var magazinExistent = ctx.Magazine.FirstOrDefault(x => x.IdMagazin == m.IdMagazin);
+
+                        if (magazinExistent == null)
+                        {
+                            m.IdMagazin = 0;
+                            foreach (var r in m.ListaRaioane ?? [])
+                            {
+                                r.IdRaion = 0;
+                                foreach (var d in r.Desfaceri ?? [])
+                                {
+                                    d.IdDesfacere = 0;
+                                }
+                            }
+                            ctx.Magazine.Add(m);
+                        }
+                        else
+                        {
+                            magazinExistent.Nume = m.Nume;
+                            magazinExistent.Adresa = m.Adresa;
+                            ctx.Magazine.Update(magazinExistent);
+                        }
+                    }
+                    ctx.SaveChanges();
+                    AfiseazaMagazine();
+                    lblStatus.Text = "Magazine deserializate cu succes!";
+                }
+            }
+        }
+        #endregion
+
+        #region Export Raport Text
+        private void ExportRaport()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text File | *.txt";
+            saveFileDialog.Title = "Save as text file";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName))
+                {
+                    sw.WriteLine("IdMagazin, Nume, Adresa");
+                    foreach (var m in ctx.Magazine.ToList())
+                    {
+                        sw.WriteLine("\"{0}\", \"{1}\", \"{2}\"",
+                            m.IdMagazin,
+                            m.Nume.Replace("\"", "\"\""),
+                            m.Adresa.Replace("\"", "\"\""));
+                    }
+                }
+            }
+
+            lblStatus.Text = "Raport magazine exportat in format txt cu succes!";
+        }
+        #endregion
     }
 }

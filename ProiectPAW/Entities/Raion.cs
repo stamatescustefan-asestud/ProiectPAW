@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ComertApp.Entities
@@ -19,6 +20,7 @@ namespace ComertApp.Entities
         [Required]
         public int IdMagazin { get; set; }
         [ForeignKey("IdMagazin")]
+        [JsonIgnore]
         public virtual Magazin? Magazin { get; set; }
         public virtual List<Desfacere> Desfaceri { get; set; } = new();
     }

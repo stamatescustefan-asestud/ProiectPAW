@@ -32,10 +32,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
-            exportRaportTXTToolStripMenuItem = new ToolStripMenuItem();
+            tsmiSerializare = new ToolStripMenuItem();
+            tsmiDeserializare = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
             adaugaMagazinToolStripMenuItem = new ToolStripMenuItem();
             printeazaFisaMagazinToolStripMenuItem = new ToolStripMenuItem();
+            graficToolStripMenuItem = new ToolStripMenuItem();
             toolStrip1 = new ToolStrip();
             btnListaMagazineToolStrip = new ToolStripButton();
             btnAdaugaMagazinToolStrip = new ToolStripButton();
@@ -52,6 +54,22 @@
             cmiEditare = new ToolStripMenuItem();
             cmiCopiaza = new ToolStripMenuItem();
             panelContainer = new Panel();
+            panelFormDesfacere = new Panel();
+            tbIdDesfacere = new TextBox();
+            dtpDataVanzarii = new DateTimePicker();
+            nudValoare = new NumericUpDown();
+            nudCantitate = new NumericUpDown();
+            tbProdusVandut = new TextBox();
+            btnAdaugaDesfacere = new Button();
+            lblDataVanzarii = new Label();
+            lblValoare = new Label();
+            lblCantitate = new Label();
+            lblProdusVandut = new Label();
+            cbSelectareRaionDesfacere = new ComboBox();
+            lblSelectareRaionDesfacere = new Label();
+            cbSelectareMagazinDesfacere = new ComboBox();
+            lblSelectareMagazinDesfacere = new Label();
+            lblTitluDesfacere = new Label();
             panelFormRaion = new Panel();
             tbIdRaion = new TextBox();
             btnAdaugaRaion = new Button();
@@ -75,39 +93,23 @@
             btnDelete = new Button();
             lblTitluListe = new Label();
             dgvListe = new DataGridView();
-            panelFormDesfacere = new Panel();
-            dtpDataVanzarii = new DateTimePicker();
-            nudValoare = new NumericUpDown();
-            nudCantitate = new NumericUpDown();
-            tbProdusVandut = new TextBox();
-            btnAdaugaDesfacere = new Button();
-            lblDataVanzarii = new Label();
-            lblValoare = new Label();
-            lblCantitate = new Label();
-            lblProdusVandut = new Label();
-            cbSelectareRaionDesfacere = new ComboBox();
-            lblSelectareRaionDesfacere = new Label();
-            cbSelectareMagazinDesfacere = new ComboBox();
-            lblSelectareMagazinDesfacere = new Label();
-            lblTitluDesfacere = new Label();
             comertDbContextBindingSource = new BindingSource(components);
             magazinBindingSource = new BindingSource(components);
             errorProvider = new ErrorProvider(components);
             raionBindingSource = new BindingSource(components);
-            tbIdDesfacere = new TextBox();
             menuStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             contextStripEntitate.SuspendLayout();
             panelContainer.SuspendLayout();
+            panelFormDesfacere.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudValoare).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudCantitate).BeginInit();
             panelFormRaion.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudNumarAngajati).BeginInit();
             panelFormMagazin.SuspendLayout();
             panelListe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListe).BeginInit();
-            panelFormDesfacere.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)nudValoare).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)nudCantitate).BeginInit();
             ((System.ComponentModel.ISupportInitialize)comertDbContextBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)magazinBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
@@ -125,20 +127,28 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exportRaportTXTToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tsmiSerializare, tsmiDeserializare });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(46, 20);
             fileToolStripMenuItem.Text = "&Fisier";
             // 
-            // exportRaportTXTToolStripMenuItem
+            // tsmiSerializare
             // 
-            exportRaportTXTToolStripMenuItem.Name = "exportRaportTXTToolStripMenuItem";
-            exportRaportTXTToolStripMenuItem.Size = new Size(101, 22);
-            exportRaportTXTToolStripMenuItem.Text = "&Iesire";
+            tsmiSerializare.Name = "tsmiSerializare";
+            tsmiSerializare.Size = new Size(139, 22);
+            tsmiSerializare.Text = "Serializare";
+            tsmiSerializare.Click += tsmiSerializare_Click;
+            // 
+            // tsmiDeserializare
+            // 
+            tsmiDeserializare.Name = "tsmiDeserializare";
+            tsmiDeserializare.Size = new Size(139, 22);
+            tsmiDeserializare.Text = "Deserializare";
+            tsmiDeserializare.Click += tsmiDeserializare_Click;
             // 
             // toolStripMenuItem1
             // 
-            toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { adaugaMagazinToolStripMenuItem, printeazaFisaMagazinToolStripMenuItem });
+            toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { adaugaMagazinToolStripMenuItem, printeazaFisaMagazinToolStripMenuItem, graficToolStripMenuItem });
             toolStripMenuItem1.Name = "toolStripMenuItem1";
             toolStripMenuItem1.Size = new Size(66, 20);
             toolStripMenuItem1.Text = "Rapoarte";
@@ -148,12 +158,20 @@
             adaugaMagazinToolStripMenuItem.Name = "adaugaMagazinToolStripMenuItem";
             adaugaMagazinToolStripMenuItem.Size = new Size(193, 22);
             adaugaMagazinToolStripMenuItem.Text = "&Export Raport TXT";
+            adaugaMagazinToolStripMenuItem.Click += adaugaMagazinToolStripMenuItem_Click;
             // 
             // printeazaFisaMagazinToolStripMenuItem
             // 
             printeazaFisaMagazinToolStripMenuItem.Name = "printeazaFisaMagazinToolStripMenuItem";
             printeazaFisaMagazinToolStripMenuItem.Size = new Size(193, 22);
             printeazaFisaMagazinToolStripMenuItem.Text = "Printeaza Fisa Magazin";
+            // 
+            // graficToolStripMenuItem
+            // 
+            graficToolStripMenuItem.Name = "graficToolStripMenuItem";
+            graficToolStripMenuItem.Size = new Size(193, 22);
+            graficToolStripMenuItem.Text = "Grafic";
+            graficToolStripMenuItem.Click += graficToolStripMenuItem_Click;
             // 
             // toolStrip1
             // 
@@ -287,6 +305,158 @@
             panelContainer.Name = "panelContainer";
             panelContainer.Size = new Size(800, 379);
             panelContainer.TabIndex = 3;
+            // 
+            // panelFormDesfacere
+            // 
+            panelFormDesfacere.Controls.Add(tbIdDesfacere);
+            panelFormDesfacere.Controls.Add(dtpDataVanzarii);
+            panelFormDesfacere.Controls.Add(nudValoare);
+            panelFormDesfacere.Controls.Add(nudCantitate);
+            panelFormDesfacere.Controls.Add(tbProdusVandut);
+            panelFormDesfacere.Controls.Add(btnAdaugaDesfacere);
+            panelFormDesfacere.Controls.Add(lblDataVanzarii);
+            panelFormDesfacere.Controls.Add(lblValoare);
+            panelFormDesfacere.Controls.Add(lblCantitate);
+            panelFormDesfacere.Controls.Add(lblProdusVandut);
+            panelFormDesfacere.Controls.Add(cbSelectareRaionDesfacere);
+            panelFormDesfacere.Controls.Add(lblSelectareRaionDesfacere);
+            panelFormDesfacere.Controls.Add(cbSelectareMagazinDesfacere);
+            panelFormDesfacere.Controls.Add(lblSelectareMagazinDesfacere);
+            panelFormDesfacere.Controls.Add(lblTitluDesfacere);
+            panelFormDesfacere.Dock = DockStyle.Fill;
+            panelFormDesfacere.Location = new Point(0, 0);
+            panelFormDesfacere.Name = "panelFormDesfacere";
+            panelFormDesfacere.Size = new Size(800, 379);
+            panelFormDesfacere.TabIndex = 3;
+            panelFormDesfacere.Visible = false;
+            // 
+            // tbIdDesfacere
+            // 
+            tbIdDesfacere.Location = new Point(183, 9);
+            tbIdDesfacere.Name = "tbIdDesfacere";
+            tbIdDesfacere.Size = new Size(100, 23);
+            tbIdDesfacere.TabIndex = 17;
+            tbIdDesfacere.Visible = false;
+            // 
+            // dtpDataVanzarii
+            // 
+            dtpDataVanzarii.Location = new Point(231, 250);
+            dtpDataVanzarii.Name = "dtpDataVanzarii";
+            dtpDataVanzarii.Size = new Size(194, 23);
+            dtpDataVanzarii.TabIndex = 16;
+            // 
+            // nudValoare
+            // 
+            nudValoare.Location = new Point(231, 203);
+            nudValoare.Name = "nudValoare";
+            nudValoare.Size = new Size(120, 23);
+            nudValoare.TabIndex = 15;
+            // 
+            // nudCantitate
+            // 
+            nudCantitate.Location = new Point(231, 156);
+            nudCantitate.Name = "nudCantitate";
+            nudCantitate.Size = new Size(120, 23);
+            nudCantitate.TabIndex = 14;
+            // 
+            // tbProdusVandut
+            // 
+            tbProdusVandut.Location = new Point(231, 109);
+            tbProdusVandut.Name = "tbProdusVandut";
+            tbProdusVandut.Size = new Size(120, 23);
+            tbProdusVandut.TabIndex = 12;
+            // 
+            // btnAdaugaDesfacere
+            // 
+            btnAdaugaDesfacere.Location = new Point(81, 307);
+            btnAdaugaDesfacere.Name = "btnAdaugaDesfacere";
+            btnAdaugaDesfacere.Size = new Size(75, 23);
+            btnAdaugaDesfacere.TabIndex = 11;
+            btnAdaugaDesfacere.Text = "Adauga";
+            btnAdaugaDesfacere.UseVisualStyleBackColor = true;
+            btnAdaugaDesfacere.Click += btnAdaugaDesfacere_Click;
+            // 
+            // lblDataVanzarii
+            // 
+            lblDataVanzarii.AutoSize = true;
+            lblDataVanzarii.Location = new Point(81, 256);
+            lblDataVanzarii.Name = "lblDataVanzarii";
+            lblDataVanzarii.Size = new Size(74, 15);
+            lblDataVanzarii.TabIndex = 10;
+            lblDataVanzarii.Text = "Data Vanzarii";
+            // 
+            // lblValoare
+            // 
+            lblValoare.AutoSize = true;
+            lblValoare.Location = new Point(81, 205);
+            lblValoare.Name = "lblValoare";
+            lblValoare.Size = new Size(45, 15);
+            lblValoare.TabIndex = 9;
+            lblValoare.Text = "Valoare";
+            // 
+            // lblCantitate
+            // 
+            lblCantitate.AutoSize = true;
+            lblCantitate.Location = new Point(81, 158);
+            lblCantitate.Name = "lblCantitate";
+            lblCantitate.Size = new Size(55, 15);
+            lblCantitate.TabIndex = 8;
+            lblCantitate.Text = "Cantitate";
+            // 
+            // lblProdusVandut
+            // 
+            lblProdusVandut.AutoSize = true;
+            lblProdusVandut.Location = new Point(81, 112);
+            lblProdusVandut.Name = "lblProdusVandut";
+            lblProdusVandut.Size = new Size(84, 15);
+            lblProdusVandut.TabIndex = 7;
+            lblProdusVandut.Text = "Produs Vandut";
+            // 
+            // cbSelectareRaionDesfacere
+            // 
+            cbSelectareRaionDesfacere.FormattingEnabled = true;
+            cbSelectareRaionDesfacere.Location = new Point(535, 62);
+            cbSelectareRaionDesfacere.Name = "cbSelectareRaionDesfacere";
+            cbSelectareRaionDesfacere.Size = new Size(121, 23);
+            cbSelectareRaionDesfacere.TabIndex = 6;
+            // 
+            // lblSelectareRaionDesfacere
+            // 
+            lblSelectareRaionDesfacere.AutoSize = true;
+            lblSelectareRaionDesfacere.Location = new Point(400, 65);
+            lblSelectareRaionDesfacere.Name = "lblSelectareRaionDesfacere";
+            lblSelectareRaionDesfacere.Size = new Size(87, 15);
+            lblSelectareRaionDesfacere.TabIndex = 5;
+            lblSelectareRaionDesfacere.Text = "Selectare Raion";
+            // 
+            // cbSelectareMagazinDesfacere
+            // 
+            cbSelectareMagazinDesfacere.FormattingEnabled = true;
+            cbSelectareMagazinDesfacere.Location = new Point(231, 62);
+            cbSelectareMagazinDesfacere.Name = "cbSelectareMagazinDesfacere";
+            cbSelectareMagazinDesfacere.Size = new Size(121, 23);
+            cbSelectareMagazinDesfacere.TabIndex = 4;
+            cbSelectareMagazinDesfacere.Validating += cbSelectareMagazinDesfacere_Validating;
+            cbSelectareMagazinDesfacere.Validated += cbSelectareMagazinDesfacere_Validated;
+            // 
+            // lblSelectareMagazinDesfacere
+            // 
+            lblSelectareMagazinDesfacere.AutoSize = true;
+            lblSelectareMagazinDesfacere.Location = new Point(81, 65);
+            lblSelectareMagazinDesfacere.Name = "lblSelectareMagazinDesfacere";
+            lblSelectareMagazinDesfacere.Size = new Size(102, 15);
+            lblSelectareMagazinDesfacere.TabIndex = 3;
+            lblSelectareMagazinDesfacere.Text = "Selectare Magazin";
+            // 
+            // lblTitluDesfacere
+            // 
+            lblTitluDesfacere.AutoSize = true;
+            lblTitluDesfacere.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTitluDesfacere.Location = new Point(12, 9);
+            lblTitluDesfacere.Name = "lblTitluDesfacere";
+            lblTitluDesfacere.Size = new Size(165, 25);
+            lblTitluDesfacere.TabIndex = 2;
+            lblTitluDesfacere.Text = "Adauga Desfacere";
             // 
             // panelFormRaion
             // 
@@ -517,150 +687,6 @@
             dgvListe.TabIndex = 0;
             dgvListe.CellMouseDown += dgvListe_CellMouseDown;
             // 
-            // panelFormDesfacere
-            // 
-            panelFormDesfacere.Controls.Add(tbIdDesfacere);
-            panelFormDesfacere.Controls.Add(dtpDataVanzarii);
-            panelFormDesfacere.Controls.Add(nudValoare);
-            panelFormDesfacere.Controls.Add(nudCantitate);
-            panelFormDesfacere.Controls.Add(tbProdusVandut);
-            panelFormDesfacere.Controls.Add(btnAdaugaDesfacere);
-            panelFormDesfacere.Controls.Add(lblDataVanzarii);
-            panelFormDesfacere.Controls.Add(lblValoare);
-            panelFormDesfacere.Controls.Add(lblCantitate);
-            panelFormDesfacere.Controls.Add(lblProdusVandut);
-            panelFormDesfacere.Controls.Add(cbSelectareRaionDesfacere);
-            panelFormDesfacere.Controls.Add(lblSelectareRaionDesfacere);
-            panelFormDesfacere.Controls.Add(cbSelectareMagazinDesfacere);
-            panelFormDesfacere.Controls.Add(lblSelectareMagazinDesfacere);
-            panelFormDesfacere.Controls.Add(lblTitluDesfacere);
-            panelFormDesfacere.Dock = DockStyle.Fill;
-            panelFormDesfacere.Location = new Point(0, 0);
-            panelFormDesfacere.Name = "panelFormDesfacere";
-            panelFormDesfacere.Size = new Size(800, 379);
-            panelFormDesfacere.TabIndex = 3;
-            panelFormDesfacere.Visible = false;
-            // 
-            // dtpDataVanzarii
-            // 
-            dtpDataVanzarii.Location = new Point(231, 250);
-            dtpDataVanzarii.Name = "dtpDataVanzarii";
-            dtpDataVanzarii.Size = new Size(194, 23);
-            dtpDataVanzarii.TabIndex = 16;
-            // 
-            // nudValoare
-            // 
-            nudValoare.Location = new Point(231, 203);
-            nudValoare.Name = "nudValoare";
-            nudValoare.Size = new Size(120, 23);
-            nudValoare.TabIndex = 15;
-            // 
-            // nudCantitate
-            // 
-            nudCantitate.Location = new Point(231, 156);
-            nudCantitate.Name = "nudCantitate";
-            nudCantitate.Size = new Size(120, 23);
-            nudCantitate.TabIndex = 14;
-            // 
-            // tbProdusVandut
-            // 
-            tbProdusVandut.Location = new Point(231, 109);
-            tbProdusVandut.Name = "tbProdusVandut";
-            tbProdusVandut.Size = new Size(120, 23);
-            tbProdusVandut.TabIndex = 12;
-            // 
-            // btnAdaugaDesfacere
-            // 
-            btnAdaugaDesfacere.Location = new Point(81, 307);
-            btnAdaugaDesfacere.Name = "btnAdaugaDesfacere";
-            btnAdaugaDesfacere.Size = new Size(75, 23);
-            btnAdaugaDesfacere.TabIndex = 11;
-            btnAdaugaDesfacere.Text = "Adauga";
-            btnAdaugaDesfacere.UseVisualStyleBackColor = true;
-            btnAdaugaDesfacere.Click += btnAdaugaDesfacere_Click;
-            // 
-            // lblDataVanzarii
-            // 
-            lblDataVanzarii.AutoSize = true;
-            lblDataVanzarii.Location = new Point(81, 256);
-            lblDataVanzarii.Name = "lblDataVanzarii";
-            lblDataVanzarii.Size = new Size(74, 15);
-            lblDataVanzarii.TabIndex = 10;
-            lblDataVanzarii.Text = "Data Vanzarii";
-            // 
-            // lblValoare
-            // 
-            lblValoare.AutoSize = true;
-            lblValoare.Location = new Point(81, 205);
-            lblValoare.Name = "lblValoare";
-            lblValoare.Size = new Size(45, 15);
-            lblValoare.TabIndex = 9;
-            lblValoare.Text = "Valoare";
-            // 
-            // lblCantitate
-            // 
-            lblCantitate.AutoSize = true;
-            lblCantitate.Location = new Point(81, 158);
-            lblCantitate.Name = "lblCantitate";
-            lblCantitate.Size = new Size(55, 15);
-            lblCantitate.TabIndex = 8;
-            lblCantitate.Text = "Cantitate";
-            // 
-            // lblProdusVandut
-            // 
-            lblProdusVandut.AutoSize = true;
-            lblProdusVandut.Location = new Point(81, 112);
-            lblProdusVandut.Name = "lblProdusVandut";
-            lblProdusVandut.Size = new Size(84, 15);
-            lblProdusVandut.TabIndex = 7;
-            lblProdusVandut.Text = "Produs Vandut";
-            // 
-            // cbSelectareRaionDesfacere
-            // 
-            cbSelectareRaionDesfacere.FormattingEnabled = true;
-            cbSelectareRaionDesfacere.Location = new Point(535, 62);
-            cbSelectareRaionDesfacere.Name = "cbSelectareRaionDesfacere";
-            cbSelectareRaionDesfacere.Size = new Size(121, 23);
-            cbSelectareRaionDesfacere.TabIndex = 6;
-            // 
-            // lblSelectareRaionDesfacere
-            // 
-            lblSelectareRaionDesfacere.AutoSize = true;
-            lblSelectareRaionDesfacere.Location = new Point(400, 65);
-            lblSelectareRaionDesfacere.Name = "lblSelectareRaionDesfacere";
-            lblSelectareRaionDesfacere.Size = new Size(87, 15);
-            lblSelectareRaionDesfacere.TabIndex = 5;
-            lblSelectareRaionDesfacere.Text = "Selectare Raion";
-            // 
-            // cbSelectareMagazinDesfacere
-            // 
-            cbSelectareMagazinDesfacere.FormattingEnabled = true;
-            cbSelectareMagazinDesfacere.Location = new Point(231, 62);
-            cbSelectareMagazinDesfacere.Name = "cbSelectareMagazinDesfacere";
-            cbSelectareMagazinDesfacere.Size = new Size(121, 23);
-            cbSelectareMagazinDesfacere.TabIndex = 4;
-            cbSelectareMagazinDesfacere.Validating += cbSelectareMagazinDesfacere_Validating;
-            cbSelectareMagazinDesfacere.Validated += cbSelectareMagazinDesfacere_Validated;
-            // 
-            // lblSelectareMagazinDesfacere
-            // 
-            lblSelectareMagazinDesfacere.AutoSize = true;
-            lblSelectareMagazinDesfacere.Location = new Point(81, 65);
-            lblSelectareMagazinDesfacere.Name = "lblSelectareMagazinDesfacere";
-            lblSelectareMagazinDesfacere.Size = new Size(102, 15);
-            lblSelectareMagazinDesfacere.TabIndex = 3;
-            lblSelectareMagazinDesfacere.Text = "Selectare Magazin";
-            // 
-            // lblTitluDesfacere
-            // 
-            lblTitluDesfacere.AutoSize = true;
-            lblTitluDesfacere.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTitluDesfacere.Location = new Point(12, 9);
-            lblTitluDesfacere.Name = "lblTitluDesfacere";
-            lblTitluDesfacere.Size = new Size(165, 25);
-            lblTitluDesfacere.TabIndex = 2;
-            lblTitluDesfacere.Text = "Adauga Desfacere";
-            // 
             // comertDbContextBindingSource
             // 
             comertDbContextBindingSource.DataSource = typeof(ComertApp.Entities.ComertDbContext);
@@ -676,14 +702,6 @@
             // raionBindingSource
             // 
             raionBindingSource.DataSource = typeof(ComertApp.Entities.Raion);
-            // 
-            // tbIdDesfacere
-            // 
-            tbIdDesfacere.Location = new Point(183, 9);
-            tbIdDesfacere.Name = "tbIdDesfacere";
-            tbIdDesfacere.Size = new Size(100, 23);
-            tbIdDesfacere.TabIndex = 17;
-            tbIdDesfacere.Visible = false;
             // 
             // Form1
             // 
@@ -704,6 +722,10 @@
             statusStrip1.PerformLayout();
             contextStripEntitate.ResumeLayout(false);
             panelContainer.ResumeLayout(false);
+            panelFormDesfacere.ResumeLayout(false);
+            panelFormDesfacere.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudValoare).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudCantitate).EndInit();
             panelFormRaion.ResumeLayout(false);
             panelFormRaion.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudNumarAngajati).EndInit();
@@ -712,10 +734,6 @@
             panelListe.ResumeLayout(false);
             panelListe.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListe).EndInit();
-            panelFormDesfacere.ResumeLayout(false);
-            panelFormDesfacere.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)nudValoare).EndInit();
-            ((System.ComponentModel.ISupportInitialize)nudCantitate).EndInit();
             ((System.ComponentModel.ISupportInitialize)comertDbContextBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)magazinBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
@@ -737,7 +755,7 @@
         private ToolStripButton btnAdaugaDesfacereToolStrip;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel lblStatus;
-        private ToolStripMenuItem exportRaportTXTToolStripMenuItem;
+        private ToolStripMenuItem tsmiSerializare;
         private ToolStripMenuItem adaugaMagazinToolStripMenuItem;
         private ToolStripMenuItem printeazaFisaMagazinToolStripMenuItem;
         private ContextMenuStrip contextStripEntitate;
@@ -793,5 +811,7 @@
         private Button btnDelete;
         private TextBox tbIdRaion;
         private TextBox tbIdDesfacere;
+        private ToolStripMenuItem tsmiDeserializare;
+        private ToolStripMenuItem graficToolStripMenuItem;
     }
 }
