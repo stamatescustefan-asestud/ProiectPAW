@@ -38,8 +38,10 @@ namespace ComertControls
             };
         }
 
-        public void BarChartControl_Paint(object sender, PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs e)
         {
+            base.OnPaint(e);
+            
             if (Data == null || Data.Length == 0) return;
 
             Graphics graphics = e.Graphics;
@@ -66,9 +68,7 @@ namespace ComertControls
 
                 graphics.FillRectangle(brush, x, y, w, h);
                 graphics.DrawRectangle(pen, x, y, w, h);
-
                 graphics.DrawString(Data[i].Value.ToString("N0"), font, textBrush, x, y - 16);
-
                 graphics.DrawString(Data[i].Label, font, textBrush, x, clipRectangle.Height - 18);
             }
         }

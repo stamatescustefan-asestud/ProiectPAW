@@ -135,14 +135,14 @@
             // tsmiSerializare
             // 
             tsmiSerializare.Name = "tsmiSerializare";
-            tsmiSerializare.Size = new Size(139, 22);
+            tsmiSerializare.Size = new Size(180, 22);
             tsmiSerializare.Text = "Serializare";
             tsmiSerializare.Click += tsmiSerializare_Click;
             // 
             // tsmiDeserializare
             // 
             tsmiDeserializare.Name = "tsmiDeserializare";
-            tsmiDeserializare.Size = new Size(139, 22);
+            tsmiDeserializare.Size = new Size(180, 22);
             tsmiDeserializare.Text = "Deserializare";
             tsmiDeserializare.Click += tsmiDeserializare_Click;
             // 
@@ -156,20 +156,21 @@
             // adaugaMagazinToolStripMenuItem
             // 
             adaugaMagazinToolStripMenuItem.Name = "adaugaMagazinToolStripMenuItem";
-            adaugaMagazinToolStripMenuItem.Size = new Size(193, 22);
-            adaugaMagazinToolStripMenuItem.Text = "&Export Raport TXT";
+            adaugaMagazinToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.E;
+            adaugaMagazinToolStripMenuItem.Size = new Size(205, 22);
+            adaugaMagazinToolStripMenuItem.Text = "Export Raport TXT";
             adaugaMagazinToolStripMenuItem.Click += adaugaMagazinToolStripMenuItem_Click;
             // 
             // printeazaFisaMagazinToolStripMenuItem
             // 
             printeazaFisaMagazinToolStripMenuItem.Name = "printeazaFisaMagazinToolStripMenuItem";
-            printeazaFisaMagazinToolStripMenuItem.Size = new Size(193, 22);
+            printeazaFisaMagazinToolStripMenuItem.Size = new Size(205, 22);
             printeazaFisaMagazinToolStripMenuItem.Text = "Printeaza Fisa Magazin";
             // 
             // graficToolStripMenuItem
             // 
             graficToolStripMenuItem.Name = "graficToolStripMenuItem";
-            graficToolStripMenuItem.Size = new Size(193, 22);
+            graficToolStripMenuItem.Size = new Size(205, 22);
             graficToolStripMenuItem.Text = "Grafic";
             graficToolStripMenuItem.Click += graficToolStripMenuItem_Click;
             // 
