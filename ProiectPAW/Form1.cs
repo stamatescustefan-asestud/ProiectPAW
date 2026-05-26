@@ -214,7 +214,10 @@ namespace ProiectPAW
             {
                 printPreviewDialog.ShowDialog();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
@@ -289,9 +292,9 @@ namespace ProiectPAW
                     AfiseazaMagazine();
                     RefreshStatusBar();
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    MessageBox.Show(ex.Message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -308,11 +311,11 @@ namespace ProiectPAW
                     AfiseazaMagazine();
                     RefreshStatusBar();
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-
-            AfiseazaMagazine();
-            RefreshStatusBar();
         }
         #endregion
 
@@ -428,7 +431,10 @@ namespace ProiectPAW
                     AfiseazaRaioane();
                     RefreshStatusBar();
                 }
-                catch { }
+                catch (Exception ex) 
+                { 
+                    MessageBox.Show(ex.Message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+                }
             }
             else
             {
@@ -445,7 +451,10 @@ namespace ProiectPAW
                     AfiseazaRaioane();
                     RefreshStatusBar();
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
         #endregion
@@ -621,9 +630,9 @@ namespace ProiectPAW
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    MessageBox.Show(ex.Message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -648,9 +657,9 @@ namespace ProiectPAW
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    MessageBox.Show(ex.Message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -757,9 +766,9 @@ namespace ProiectPAW
             dtpDataVanzarii.Value = d.DataVanzarii.ToDateTime(TimeOnly.FromDateTime(DateTime.Now));
 
             cbSelectareMagazinDesfacere.DataSource = ctx.Magazine.Select(m => new { Nume = m.Nume, Valoare = m.IdMagazin }).ToList();
-            cbMagazinRaion.DisplayMember = "Nume";
-            cbMagazinRaion.ValueMember = "Valoare";
-            cbMagazinRaion.SelectedValue = d.Raion.IdMagazin;
+            cbSelectareMagazinDesfacere.DisplayMember = "Nume";
+            cbSelectareMagazinDesfacere.ValueMember = "Valoare";
+            cbSelectareMagazinDesfacere.SelectedValue = d.Raion.IdMagazin;
 
             cbSelectareRaionDesfacere.DataSource = ctx.Raioane.Where(r => r.IdMagazin == d.Raion.IdMagazin)
                 .Select(n => new { NumeRaion = n.Nume, Valoare = n.IdRaion }).ToList();
@@ -796,7 +805,7 @@ namespace ProiectPAW
         }
         #endregion
 
-        #region Serializare si Deserializare
+        #region SerializareSiDeserializare
         private void SerializeazaMagazine()
         {
             var magazine = ctx.Magazine.Include(m => m.ListaRaioane).ThenInclude(r => r.Desfaceri).ToList();
@@ -847,7 +856,7 @@ namespace ProiectPAW
         }
         #endregion
 
-        #region Export Raport Text
+        #region ExportRaportText
         private void ExportRaport()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -867,9 +876,9 @@ namespace ProiectPAW
                             m.Adresa.Replace("\"", "\"\""));
                     }
                 }
-            }
 
-            lblStatus.Text = "Raport magazine exportat in format txt cu succes!";
+                lblStatus.Text = "Raport magazine exportat in format txt cu succes!";
+            }
         }
         #endregion
 
