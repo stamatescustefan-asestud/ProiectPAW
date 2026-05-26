@@ -14,12 +14,14 @@ namespace ComertApp.Forms
     public partial class FormGrafic : Form
     {
         public BarChartControl barChartControl;
-        public FormGrafic()
+        public FormGrafic(BarChartValue[] data)
         {
             InitializeComponent();
 
             barChartControl = new BarChartControl();
             barChartControl.Dock = DockStyle.Fill;
+            barChartControl.BackColor = Color.Black;
+            barChartControl.Data = data;
             Controls.Add(barChartControl);
         }
     }

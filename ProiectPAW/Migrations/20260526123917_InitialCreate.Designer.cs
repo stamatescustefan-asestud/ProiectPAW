@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComertApp.Migrations
 {
     [DbContext(typeof(ComertDbContext))]
-    [Migration("20260517173426_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20260526123917_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace ComertApp.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.16");
 
-            modelBuilder.Entity("ComertApp.Models.Desfacere", b =>
+            modelBuilder.Entity("ComertApp.Entities.Desfacere", b =>
                 {
                     b.Property<int>("IdDesfacere")
                         .ValueGeneratedOnAdd()
@@ -29,7 +29,7 @@ namespace ComertApp.Migrations
                     b.Property<int>("Cantitate")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("DataVanzarii")
+                    b.Property<DateOnly>("DataVanzarii")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("IdRaion")
@@ -40,8 +40,8 @@ namespace ComertApp.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<float>("Valoare")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("Valoare")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("IdDesfacere");
 
@@ -50,7 +50,7 @@ namespace ComertApp.Migrations
                     b.ToTable("Desfaceri");
                 });
 
-            modelBuilder.Entity("ComertApp.Models.Magazin", b =>
+            modelBuilder.Entity("ComertApp.Entities.Magazin", b =>
                 {
                     b.Property<int>("IdMagazin")
                         .ValueGeneratedOnAdd()
@@ -71,7 +71,7 @@ namespace ComertApp.Migrations
                     b.ToTable("Magazine");
                 });
 
-            modelBuilder.Entity("ComertApp.Models.Raion", b =>
+            modelBuilder.Entity("ComertApp.Entities.Raion", b =>
                 {
                     b.Property<int>("IdRaion")
                         .ValueGeneratedOnAdd()
@@ -95,9 +95,9 @@ namespace ComertApp.Migrations
                     b.ToTable("Raioane");
                 });
 
-            modelBuilder.Entity("ComertApp.Models.Desfacere", b =>
+            modelBuilder.Entity("ComertApp.Entities.Desfacere", b =>
                 {
-                    b.HasOne("ComertApp.Models.Raion", "Raion")
+                    b.HasOne("ComertApp.Entities.Raion", "Raion")
                         .WithMany("Desfaceri")
                         .HasForeignKey("IdRaion")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -106,9 +106,9 @@ namespace ComertApp.Migrations
                     b.Navigation("Raion");
                 });
 
-            modelBuilder.Entity("ComertApp.Models.Raion", b =>
+            modelBuilder.Entity("ComertApp.Entities.Raion", b =>
                 {
-                    b.HasOne("ComertApp.Models.Magazin", "Magazin")
+                    b.HasOne("ComertApp.Entities.Magazin", "Magazin")
                         .WithMany("ListaRaioane")
                         .HasForeignKey("IdMagazin")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -117,12 +117,12 @@ namespace ComertApp.Migrations
                     b.Navigation("Magazin");
                 });
 
-            modelBuilder.Entity("ComertApp.Models.Magazin", b =>
+            modelBuilder.Entity("ComertApp.Entities.Magazin", b =>
                 {
                     b.Navigation("ListaRaioane");
                 });
 
-            modelBuilder.Entity("ComertApp.Models.Raion", b =>
+            modelBuilder.Entity("ComertApp.Entities.Raion", b =>
                 {
                     b.Navigation("Desfaceri");
                 });

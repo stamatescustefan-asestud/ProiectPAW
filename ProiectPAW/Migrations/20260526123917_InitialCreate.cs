@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ComertApp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,8 +54,8 @@ namespace ComertApp.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ProdusVandut = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Cantitate = table.Column<int>(type: "INTEGER", nullable: false),
-                    Valoare = table.Column<float>(type: "REAL", nullable: false),
-                    DataVanzarii = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Valoare = table.Column<decimal>(type: "TEXT", nullable: false),
+                    DataVanzarii = table.Column<DateOnly>(type: "TEXT", nullable: false),
                     IdRaion = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>

@@ -203,9 +203,12 @@ namespace ProiectPAW
                 .AsEnumerable()
                 .Select(x => new BarChartValue(x.Nume, x.Total))
                 .ToArray();
-            var form = new FormGrafic();
-            form.barChartControl.Data = data;
-            form.Show();
+            //var form = new FormGrafic();
+            //form.Show();
+            //form.barChartControl.Data = data;
+            //form.barChartControl.Invalidate();
+            //form.barChartControl.Update();
+            new FormGrafic(data).Show();
         }
 
         private void printeazaFisaMagazinToolStripMenuItem_Click(object sender, EventArgs e)

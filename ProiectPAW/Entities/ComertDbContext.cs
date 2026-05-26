@@ -27,7 +27,7 @@ namespace ComertApp.Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=students.db");
+            optionsBuilder.UseSqlite("Data Source=comert.db");
         }
     }
 }

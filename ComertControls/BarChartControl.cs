@@ -12,14 +12,14 @@ namespace ComertControls
 {
     public partial class BarChartControl : Control
     {
-        public BarChartValue[] _data;
+        public BarChartValue[] data;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public BarChartValue[] Data
         {
-            get { return _data; }
+            get { return data; }
             set
             {
-                _data = value;
+                data = value;
                 Invalidate();
             }
         }
@@ -30,12 +30,12 @@ namespace ComertControls
 
             ResizeRedraw = true;
 
-            Data = new[]
-            {
-            new BarChartValue("Magazin A", 30),
-            new BarChartValue("Magazin B", 80),
-            new BarChartValue("Magazin C", 40)
-            };
+            //Data = new[]
+            //{
+            //new BarChartValue("Magazin A", 1),
+            //new BarChartValue("Magazin B", 1),
+            //new BarChartValue("Magazin C", 1)
+            //};
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -45,7 +45,7 @@ namespace ComertControls
             if (Data == null || Data.Length == 0) return;
 
             Graphics graphics = e.Graphics;
-            Rectangle clipRectangle = e.ClipRectangle;
+            Rectangle clipRectangle = this.ClientRectangle;
 
             var barWidth = clipRectangle.Width / Data.Length;
             var maxBarHeight = clipRectangle.Height * 0.8;
