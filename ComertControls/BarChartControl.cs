@@ -27,15 +27,7 @@ namespace ComertControls
         public BarChartControl()
         {
             InitializeComponent();
-
             ResizeRedraw = true;
-
-            //Data = new[]
-            //{
-            //new BarChartValue("Magazin A", 1),
-            //new BarChartValue("Magazin B", 1),
-            //new BarChartValue("Magazin C", 1)
-            //};
         }
 
         protected override void OnPaint(PaintEventArgs e)

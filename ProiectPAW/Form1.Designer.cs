@@ -355,6 +355,7 @@
             // nudValoare
             // 
             nudValoare.Location = new Point(231, 203);
+            nudValoare.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             nudValoare.Name = "nudValoare";
             nudValoare.Size = new Size(120, 23);
             nudValoare.TabIndex = 15;
