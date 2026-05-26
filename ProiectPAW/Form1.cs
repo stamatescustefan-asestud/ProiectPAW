@@ -15,11 +15,33 @@ namespace ProiectPAW
         ComertDbContext ctx;
         private int magazinCurentIndex;
         private List<Magazin> magazineDePrintat;
+        private StatusBarControl statusBarControl;
+
         public Form1()
         {
             InitializeComponent();
+            statusBarControl = new StatusBarControl();
+            statusBarControl.Dock = DockStyle.Bottom;
+            this.Controls.Add(statusBarControl);
             ctx = new ComertDbContext();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            AfiseazaMagazine();
+            RefreshStatusBar();
+        }
+
+        #region StatusBarControlRefresh
+        private void RefreshStatusBar()
+        {
+            int totalMagazine = ctx.Magazine.Count();
+            int totalRaioane = ctx.Raioane.Count();
+            int totalDesfaceri = ctx.Desfaceri.Count();
+
+            statusBarControl.Refresh(totalMagazine, totalRaioane, totalDesfaceri);
+        }
+        #endregion
 
         #region toolstrip
         private void AfiseazaMagazine()
@@ -265,6 +287,7 @@ namespace ProiectPAW
                     ctx.SaveChanges();
                     lblStatus.Text = "Magazin adaugat cu succes!";
                     AfiseazaMagazine();
+                    RefreshStatusBar();
                 }
                 catch
                 {
@@ -283,11 +306,13 @@ namespace ProiectPAW
                     ctx.SaveChanges();
                     lblStatus.Text = "Magazin editat cu succes!";
                     AfiseazaMagazine();
+                    RefreshStatusBar();
                 }
                 catch { }
             }
 
             AfiseazaMagazine();
+            RefreshStatusBar();
         }
         #endregion
 
@@ -401,6 +426,7 @@ namespace ProiectPAW
                     ctx.SaveChanges();
                     lblStatus.Text = "Raion adaugat cu succes!";
                     AfiseazaRaioane();
+                    RefreshStatusBar();
                 }
                 catch { }
             }
@@ -417,6 +443,7 @@ namespace ProiectPAW
                     ctx.SaveChanges();
                     lblStatus.Text = "Raion editat cu succes!";
                     AfiseazaRaioane();
+                    RefreshStatusBar();
                 }
                 catch { }
             }
@@ -588,6 +615,7 @@ namespace ProiectPAW
                     ctx.SaveChanges();
                     lblStatus.Text = "Desfacere adaugata cu succes!";
                     AfiseazaDesfaceri();
+                    RefreshStatusBar();
                 }
                 catch (InvalidSaleDateException ex)
                 {
@@ -614,6 +642,7 @@ namespace ProiectPAW
                     ctx.SaveChanges();
                     lblStatus.Text = "Desfacere editata cu succes!";
                     AfiseazaDesfaceri();
+                    RefreshStatusBar();
                 }
                 catch (InvalidSaleDateException ex)
                 {
@@ -637,6 +666,7 @@ namespace ProiectPAW
                 ctx.SaveChanges();
                 lblStatus.Text = "Magazin sters cu succes!";
                 AfiseazaMagazine();
+                RefreshStatusBar();
             }
             else if (entitate is RaionViewModel rvm)
             {
@@ -645,6 +675,7 @@ namespace ProiectPAW
                 ctx.SaveChanges();
                 lblStatus.Text = "Raion sters cu succes!";
                 AfiseazaRaioane();
+                RefreshStatusBar();
             }
             else if (entitate is Desfacere d)
             {
@@ -652,6 +683,7 @@ namespace ProiectPAW
                 ctx.SaveChanges();
                 lblStatus.Text = "Desfacere stearsa cu succes!";
                 AfiseazaDesfaceri();
+                RefreshStatusBar();
             }
         }
 
