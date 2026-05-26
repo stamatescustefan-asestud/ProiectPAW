@@ -13,6 +13,8 @@ namespace ProiectPAW
     public partial class Form1 : Form
     {
         ComertDbContext ctx;
+        private int magazinCurentIndex;
+        private List<Magazin> magazineDePrintat;
         public Form1()
         {
             InitializeComponent();
@@ -182,6 +184,15 @@ namespace ProiectPAW
             var form = new FormGrafic();
             form.barChartControl.Data = data;
             form.Show();
+        }
+
+        private void printeazaFisaMagazinToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                printPreviewDialog.ShowDialog();
+            }
+            catch { }
         }
         #endregion
 
@@ -616,7 +627,7 @@ namespace ProiectPAW
         }
         #endregion
 
-        #region Editare si Stergere
+        #region EditareStergereCopiere
         private void cmiSterge_Click(object sender, EventArgs e)
         {
             var entitate = dgvListe.SelectedRows[0].DataBoundItem;
@@ -741,6 +752,16 @@ namespace ProiectPAW
                 dgvListe.CurrentCell = dgvListe.Rows[e.RowIndex].Cells[e.ColumnIndex];
             }
         }
+
+        private void cmiCopiaza_Click(object sender, EventArgs e)
+        {
+            var data = dgvListe.GetClipboardContent();
+            if (data != null)
+            {
+                Clipboard.SetDataObject(data);
+            }
+            lblStatus.Text = "Date copiate cu succes!";
+        }
         #endregion
 
         #region Serializare si Deserializare
@@ -817,6 +838,78 @@ namespace ProiectPAW
             }
 
             lblStatus.Text = "Raport magazine exportat in format txt cu succes!";
+        }
+        #endregion
+
+        #region Print
+        private void printDocument_BeginPrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+        {
+            magazinCurentIndex = 0;
+            magazineDePrintat = ctx.Magazine.ToList();
+        }
+
+        private void printDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            Font font = new Font("Microsoft Sans Serif", 12);
+            Font fontHeader = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+
+            var pageSettings = e.PageSettings;
+            var printAreaHeight = e.MarginBounds.Height;
+            var printAreaWidth = e.MarginBounds.Width;
+            var marginLeft = pageSettings.Margins.Left;
+            var marginTop = pageSettings.Margins.Top;
+
+            if (pageSettings.Landscape)
+            {
+                var temp = printAreaHeight;
+                printAreaHeight = printAreaWidth;
+                printAreaWidth = temp;
+            }
+
+            const int rowHeight = 40;
+            var columnWidth = printAreaWidth / 3;
+
+            StringFormat fmt = new StringFormat(StringFormatFlags.LineLimit);
+            fmt.Trimming = StringTrimming.EllipsisCharacter;
+
+            var currentY = marginTop;
+            e.Graphics.DrawString("ID", fontHeader, Brushes.Black, new RectangleF(marginLeft, currentY, columnWidth, rowHeight), fmt);
+            e.Graphics.DrawString("Nume", fontHeader, Brushes.Black, new RectangleF(marginLeft + columnWidth, currentY, columnWidth, rowHeight), fmt);
+            e.Graphics.DrawString("Adresa", fontHeader, Brushes.Black, new RectangleF(marginLeft + 2 * columnWidth, currentY, columnWidth, rowHeight), fmt);
+
+            e.Graphics.DrawRectangle(Pens.Black, marginLeft, currentY, columnWidth, rowHeight);
+            e.Graphics.DrawRectangle(Pens.Black, marginLeft + columnWidth, currentY, columnWidth, rowHeight);
+            e.Graphics.DrawRectangle(Pens.Black, marginLeft + 2 * columnWidth, currentY, columnWidth, rowHeight);
+
+            currentY += rowHeight;
+
+            while (magazinCurentIndex < magazineDePrintat.Count)
+            {
+                var currentX = marginLeft;
+                var m = magazineDePrintat[magazinCurentIndex];
+
+                e.Graphics.DrawRectangle(Pens.Black, currentX, currentY, columnWidth, rowHeight);
+                e.Graphics.DrawString(m.IdMagazin.ToString(), font, Brushes.Black, new RectangleF(currentX, currentY, columnWidth, rowHeight), fmt);
+                currentX += columnWidth;
+
+                e.Graphics.DrawRectangle(Pens.Black, currentX, currentY, columnWidth, rowHeight);
+                e.Graphics.DrawString(m.Nume, font, Brushes.Black, new RectangleF(currentX, currentY, columnWidth, rowHeight), fmt);
+                currentX += columnWidth;
+
+                e.Graphics.DrawRectangle(Pens.Black, currentX, currentY, columnWidth, rowHeight);
+                e.Graphics.DrawString(m.Adresa, font, Brushes.Black, new RectangleF(currentX, currentY, columnWidth, rowHeight), fmt);
+                currentX += columnWidth;
+
+                magazinCurentIndex++;
+                currentY += rowHeight;
+
+                if (currentY + rowHeight > marginTop + printAreaHeight)
+                {
+                    e.HasMorePages = true;
+                    return;
+                }
+            }
+            e.HasMorePages = false;
         }
         #endregion
     }

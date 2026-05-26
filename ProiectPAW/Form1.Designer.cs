@@ -97,6 +97,10 @@
             magazinBindingSource = new BindingSource(components);
             errorProvider = new ErrorProvider(components);
             raionBindingSource = new BindingSource(components);
+            printDocument = new System.Drawing.Printing.PrintDocument();
+            pageSetupDialog = new PageSetupDialog();
+            printPreviewDialog = new PrintPreviewDialog();
+            printDialog = new PrintDialog();
             menuStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
@@ -135,14 +139,14 @@
             // tsmiSerializare
             // 
             tsmiSerializare.Name = "tsmiSerializare";
-            tsmiSerializare.Size = new Size(180, 22);
+            tsmiSerializare.Size = new Size(139, 22);
             tsmiSerializare.Text = "Serializare";
             tsmiSerializare.Click += tsmiSerializare_Click;
             // 
             // tsmiDeserializare
             // 
             tsmiDeserializare.Name = "tsmiDeserializare";
-            tsmiDeserializare.Size = new Size(180, 22);
+            tsmiDeserializare.Size = new Size(139, 22);
             tsmiDeserializare.Text = "Deserializare";
             tsmiDeserializare.Click += tsmiDeserializare_Click;
             // 
@@ -166,6 +170,7 @@
             printeazaFisaMagazinToolStripMenuItem.Name = "printeazaFisaMagazinToolStripMenuItem";
             printeazaFisaMagazinToolStripMenuItem.Size = new Size(205, 22);
             printeazaFisaMagazinToolStripMenuItem.Text = "Printeaza Fisa Magazin";
+            printeazaFisaMagazinToolStripMenuItem.Click += printeazaFisaMagazinToolStripMenuItem_Click;
             // 
             // graficToolStripMenuItem
             // 
@@ -294,6 +299,7 @@
             cmiCopiaza.Name = "cmiCopiaza";
             cmiCopiaza.Size = new Size(152, 22);
             cmiCopiaza.Text = "Copiaza Detalii";
+            cmiCopiaza.Click += cmiCopiaza_Click;
             // 
             // panelContainer
             // 
@@ -704,6 +710,31 @@
             // 
             raionBindingSource.DataSource = typeof(ComertApp.Entities.Raion);
             // 
+            // printDocument
+            // 
+            printDocument.BeginPrint += printDocument_BeginPrint;
+            printDocument.PrintPage += printDocument_PrintPage;
+            // 
+            // pageSetupDialog
+            // 
+            pageSetupDialog.Document = printDocument;
+            // 
+            // printPreviewDialog
+            // 
+            printPreviewDialog.AutoScrollMargin = new Size(0, 0);
+            printPreviewDialog.AutoScrollMinSize = new Size(0, 0);
+            printPreviewDialog.ClientSize = new Size(400, 300);
+            printPreviewDialog.Document = printDocument;
+            printPreviewDialog.Enabled = true;
+            printPreviewDialog.Icon = (Icon)resources.GetObject("printPreviewDialog.Icon");
+            printPreviewDialog.Name = "printPreviewDialog";
+            printPreviewDialog.Visible = false;
+            // 
+            // printDialog
+            // 
+            printDialog.Document = printDocument;
+            printDialog.UseEXDialog = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -814,5 +845,9 @@
         private TextBox tbIdDesfacere;
         private ToolStripMenuItem tsmiDeserializare;
         private ToolStripMenuItem graficToolStripMenuItem;
+        private System.Drawing.Printing.PrintDocument printDocument;
+        private PageSetupDialog pageSetupDialog;
+        private PrintPreviewDialog printPreviewDialog;
+        private PrintDialog printDialog;
     }
 }
